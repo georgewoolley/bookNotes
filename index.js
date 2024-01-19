@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
+import axios from 'axios';
 
 const app = express();
 const port = 3000;
@@ -50,10 +51,39 @@ app.get("/", async (req, res) => {
   }
 
 
-  res.render("index.ejs", {
-    heading: "Book Note Library",
-    items: items,
-  });
+  
+  try {
+    // const coverId = 'ISBN/0385472579'; // Replace with the actual cover identifier
+    // const size = 'S'; // Replace with the desired size ('S', 'M', or 'L')
+
+   // const imageUrl = `https://covers.openlibrary.org/b/${coverId}/${size}.jpg`;
+    const imageUrl = `https://covers.openlibrary.org/b/isbn/0385472579-S.jpg`;
+
+    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+    const base64Image = Buffer.from(response.data, 'binary').toString('base64');
+    console.log(base64Image);
+
+
+    res.render("index.ejs", {
+      heading: "Book Note Library",
+      cover: base64Image,
+      items: items,
+    });
+    
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+
+
+
+
+  // res.render("index.ejs", {
+  //   heading: "Book Note Library",
+  //   cover: base64Image,
+  //   items: items,
+  // });
   
 });
 
