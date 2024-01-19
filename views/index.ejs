@@ -5,3 +5,11 @@
         <button>New Book Notes</button>
     </a>
 </div>
+
+<div>
+    <% for (const item of items) { %>
+        <h2><%= item.title %></h2>
+        <h3><%= item.sum %></h3>
+        <p><%= item.notes %></p>
+    <% } %>
+</div>

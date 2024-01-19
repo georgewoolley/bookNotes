@@ -18,7 +18,10 @@ const db = new pg.Client({
 
 db.connect();
 
-let items = [];
+let itemFormat = [
+  { id: 1, title: "Angela Book", sum: "teal book", notes: "lroem ipsum", thumb: "url" },
+  { id: 1, title: "George Book", sum: "Red book", notes: "lroem ipsum and much more", thumb: "url2" },
+];
 
 app.set('view engine', 'ejs');
 
@@ -28,7 +31,7 @@ app.get("/", async (req, res) => {
 
   res.render("index.ejs", {
     heading: "Book Note Library",
-    
+    items: itemFormat,
   });
   
 });
