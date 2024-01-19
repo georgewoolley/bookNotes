@@ -1,15 +1,62 @@
-<h1><%= heading %></h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Libray</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    
+    <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+          <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+            <span class="fs-4"><%= heading %></span>
+          </a>
+    
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="/addNotes" class="nav-link">New Note</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">TBC</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">TBC</a></li>
+            
+          </ul>
+        </header>
+      </div>
+        
 
-<div>
-    <a href="/addNotes">
-        <button>New Book Notes</button>
-    </a>
-</div>
+      <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
+        <div class="list-group">
 
-<div>
-    <% for (const item of items) { %>
-        <h2><%= item.title %></h2>
-        <h3><%= item.sum %></h3>
-        <p><%= item.notes %></p>
-    <% } %>
-</div>
+         
+                <% for (const item of items) { %>
+                              
+        
+
+
+
+          <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+            <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+              <div>
+                <h6 class="mb-0"><%= item.title %></h6>
+                <p class="mb-0 opacity-75"><%= item.sum %></p>
+              </div>
+              <small class="opacity-50 text-nowrap">now</small>
+            </div>
+          </a>
+          <% } %>
+          
+        </div>
+      </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+
