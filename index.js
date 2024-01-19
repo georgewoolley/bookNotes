@@ -30,8 +30,16 @@ app.set('view engine', 'ejs');
 
 app.get("/", async (req, res) => {
 
+  let sortOption = "ASC";
+
+  if (req.query.sort === "desc") {
+    sortOption = "DESC";
+    console.log("Oldest first");
+  }
+
+
   try {
-    const result = await db.query("SELECT * FROM book");
+    const result = await db.query(`SELECT * FROM book ORDER BY timestamp ${sortOption}`);
   
       const data = result.rows;
       items = data;
@@ -49,17 +57,21 @@ app.get("/", async (req, res) => {
   
 });
 
+
+
 app.post("/submit", async (req, res) => {
 
   const title = req.body.title;
   const summary = req.body.summary; 
   const notes = req.body.notes; 
+  const time = getCurrentTime();
 
   try {
     await db.query(
-      "INSERT INTO book (title, sum, notes) VALUES ($1, $2, $3)",
-      [title, summary, notes]
+      "INSERT INTO book (title, sum, notes, timestamp) VALUES ($1, $2, $3, $4)",
+      [title, summary, notes, time]
     );
+    console.log(getCurrentTime());
     res.redirect("/");
   } catch (err) {
     console.log(err);
@@ -87,4 +99,12 @@ app.get('/addNotes', (req, res) => {
 
 
 
+function getCurrentTime() {
+  const currentDate = new Date();
+  
+ const isoFormattedDateTime = currentDate.toISOString();
+  
+ const shortFormattedDateTime = isoFormattedDateTime.slice(0, 19).replace('T', ' ');
 
+  return shortFormattedDateTime;
+}

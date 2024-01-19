@@ -18,13 +18,25 @@
           <ul class="nav nav-pills">
             <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
             <li class="nav-item"><a href="/addNotes" class="nav-link">New Note</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">TBC</a></li>
+            <li class="nav-item"><a href="#" class="nav-link" onclick="showDropdown()">Sort List</a></li>
             <li class="nav-item"><a href="#" class="nav-link">TBC</a></li>
             
           </ul>
         </header>
       </div>
         
+      <div style="display: none;" id="dropdown">
+        <div id="myDropdown" class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
+            <ul class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px" data-bs-theme="light">
+                <li><a class="dropdown-item rounded-2 active" href="/">Most Recent First</a></li>
+                <li><a class="dropdown-item rounded-2" href="/?sort=desc">Oldest First</a></li>
+                <li><a class="dropdown-item rounded-2" href="#">Highest Rated</a></li>
+                <li><hr class="dropdown-divider"></li>
+            </ul>
+        </div>
+
+      </div>
+     
 
       <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
         <div class="list-group">
@@ -43,7 +55,7 @@
                 <h6 class="mb-0"><%= item.title %></h6>
                 <p class="mb-0 opacity-75"><%= item.sum %></p>
               </div>
-              <small class="opacity-50 text-nowrap">now</small>
+              <small class="opacity-50 text-nowrap"><%= item.timestamp %></small>
             </div>
           </a>
           <% } %>
@@ -51,7 +63,14 @@
         </div>
       </div>
 
+   
 
+      <script>
+        function showDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.style.display = (dropdown.style.display === 'none') ? 'flex' : 'none';
+        }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
