@@ -30,62 +30,34 @@ app.set('view engine', 'ejs');
 
 
 app.get("/", async (req, res) => {
-
-  let sortOption = "ASC";
-
-  if (req.query.sort === "desc") {
-    sortOption = "DESC";
-    console.log("Oldest first");
-  }
-
-
   try {
+    await getBookISBN("Sapiens");
+    await getBookISBN("Think and Grow Rich");
+
+    let sortOption = "ASC";
+
+    if (req.query.sort === "desc") {
+      sortOption = "DESC";
+      console.log("Oldest first");
+    }
+
     const result = await db.query(`SELECT * FROM book ORDER BY timestamp ${sortOption}`);
-  
-      const data = result.rows;
-      items = data;
-    
-  
+    const data = result.rows;
+    items = data;
+
+    for (const i in data) {
+      console.log(data[i].thumb);
+    }
   } catch (err) {
     console.log(err);
   }
 
-
-  
-  try {
-    // const coverId = 'ISBN/0385472579'; // Replace with the actual cover identifier
-    // const size = 'S'; // Replace with the desired size ('S', 'M', or 'L')
-
-   // const imageUrl = `https://covers.openlibrary.org/b/${coverId}/${size}.jpg`;
-    const imageUrl = `https://covers.openlibrary.org/b/isbn/0385472579-S.jpg`;
-
-    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-    const base64Image = Buffer.from(response.data, 'binary').toString('base64');
-    console.log(base64Image);
-
-
-    res.render("index.ejs", {
-      heading: "Book Note Library",
-      cover: base64Image,
-      items: items,
-    });
-    
-    
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Internal Server Error');
-  }
-
-
-
-
-  // res.render("index.ejs", {
-  //   heading: "Book Note Library",
-  //   cover: base64Image,
-  //   items: items,
-  // });
-  
+  res.render("index.ejs", {
+    heading: "Book Note Library",
+    items: items,
+  });
 });
+
 
 
 
@@ -96,10 +68,14 @@ app.post("/submit", async (req, res) => {
   const notes = req.body.notes; 
   const time = getCurrentTime();
 
+  let isbn = getBookISBN(title);
+  let imageToUpload = getImage(isbn, "s");
+
+
   try {
     await db.query(
-      "INSERT INTO book (title, sum, notes, timestamp) VALUES ($1, $2, $3, $4)",
-      [title, summary, notes, time]
+      "INSERT INTO book (title, sum, notes, timestamp, thumb) VALUES ($1, $2, $3, $4, $5 )",
+      [title, summary, notes, time, imageToUpload]
     );
     console.log(getCurrentTime());
     res.redirect("/");
@@ -137,4 +113,45 @@ function getCurrentTime() {
  const shortFormattedDateTime = isoFormattedDateTime.slice(0, 19).replace('T', ' ');
 
   return shortFormattedDateTime;
+}
+
+
+function getBookISBN(book) {
+  const bookName = book;
+  const apiUrl = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(bookName)}`;
+
+  return axios.get(apiUrl)
+    .then(response => {
+      const bookData = response.data.items[0];
+      const exists = false;
+
+      if (bookData) {
+        const isbn = bookData.volumeInfo.industryIdentifiers.find(identifier => identifier.type === 'ISBN_13');
+        console.log('ISBN:', isbn ? isbn.identifier : 'Not found');
+        return isbn;
+      } else {
+        console.log('Book not found');
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching book data:', error);
+      throw error; // Propagate the error to the caller
+    });
+}
+
+async function getImage(num, s) {
+  try {
+    const coverId = num;
+    const size = s;
+
+    const imageUrl = `https://covers.openlibrary.org/b/${coverId}/${size}.jpg`;
+
+    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+    const base64Image = Buffer.from(response.data, 'binary').toString('base64');
+
+    return base64Image;
+  } catch (err) {
+    console.error(err);
+    throw err; // Propagate the error to the caller
+  }
 }
