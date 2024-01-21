@@ -1,5 +1,21 @@
-div#table {
-    max-width: 2500px; /* Adjust as needed */
+
+
+#cards {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
 }
- 
+
+
+.flex-container {
+    display: flex;
+    flex-direction: row; /* or column, row-reverse, column-reverse */
+    justify-content: space-evenly; /* or center, flex-start, flex-end, space-around, space-evenly */
+    align-items: center; /* or flex-start, flex-end, stretch, baseline */
+  }
+
+  .flex-item {
+    width: 250px;
+    height: 350px;  
   
+  }
