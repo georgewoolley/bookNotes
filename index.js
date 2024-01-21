@@ -9,8 +9,10 @@ const apiKey = "AIzaSyBmnZkL8Iy4ihOQrZaXDYSh19U1FIBj-u4";
 const baseUrl = 'https://www.googleapis.com/books/v1/volumes';
 //const bookTitle = "Sapiens"
 
+app.use(express.static('public'));
+
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
+
 
 const db = new pg.Client({
   user: "postgres",
