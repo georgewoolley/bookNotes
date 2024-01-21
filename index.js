@@ -5,6 +5,9 @@ import axios from 'axios';
 
 const app = express();
 const port = 3000;
+const apiKey = "AIzaSyBmnZkL8Iy4ihOQrZaXDYSh19U1FIBj-u4";
+const baseUrl = 'https://www.googleapis.com/books/v1/volumes';
+const bookTitle = "Sapiens"
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -30,11 +33,12 @@ app.set('view engine', 'ejs');
 
 
 app.get("/", async (req, res) => {
-  try {
-    await getBookISBN("Sapiens");
-    await getBookISBN("Think and Grow Rich");
+  let items = [];
 
+  try {
     let sortOption = "ASC";
+
+    
 
     if (req.query.sort === "desc") {
       sortOption = "DESC";
@@ -48,14 +52,47 @@ app.get("/", async (req, res) => {
     for (const i in data) {
       console.log(data[i].thumb);
     }
+
+    try {
+      const response = await axios.get(`${baseUrl}?q=${encodeURIComponent(bookTitle)}&key=${apiKey}`);
+      
+      // Check if any books were found
+      if (response.data.totalItems === 0) {
+        console.log('No books found with the given title.');
+        return;
+      }
+  
+      // Get the first book's cover image link
+      const coverLink = response.data.items[0].volumeInfo.imageLinks.thumbnail;
+      
+      // Use the link to download or render the cover image
+      console.log(`Book Cover URL: ${coverLink}`);
+      // Now you can use this URL to download or render the image as needed.
+
+      res.render("index.ejs", {
+        heading: "Book Note Library",
+        items: items,
+        cover: coverLink,
+      });
+
+
+    } catch (error) {
+      console.error('Error fetching book information:', error.message);
+    }
+
+ 
+   
   } catch (err) {
     console.log(err);
+    res.status(500).send("Internal Server Error");
   }
 
-  res.render("index.ejs", {
-    heading: "Book Note Library",
-    items: items,
-  });
+
+
+
+
+
+
 });
 
 
@@ -153,5 +190,27 @@ async function getImage(num, s) {
   } catch (err) {
     console.error(err);
     throw err; // Propagate the error to the caller
+  }
+}
+
+
+async function getBookCover(bookTitle) {
+  try {
+    const response = await axios.get(`${baseUrl}?q=${encodeURIComponent(bookTitle)}&key=${apiKey}`);
+    
+    // Check if any books were found
+    if (response.data.totalItems === 0) {
+      console.log('No books found with the given title.');
+      return;
+    }
+
+    // Get the first book's cover image link
+    const coverLink = response.data.items[0].volumeInfo.imageLinks.thumbnail;
+    
+    // Use the link to download or render the cover image
+    console.log(`Book Cover URL: ${coverLink}`);
+    // Now you can use this URL to download or render the image as needed.
+  } catch (error) {
+    console.error('Error fetching book information:', error.message);
   }
 }
