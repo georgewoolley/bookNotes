@@ -48,7 +48,7 @@
 
             <div class="flex-item" id="cards">
                 <h2><%= item.title %> </h2>
-                <img src="<%= item.thumb %>" alt="">                
+                <img src="<%= item.thumb %>" alt="book cover" id="bookImg">                
                 <p><%= item.sum %></p>
                 <p><%= new Date(item.timestamp).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) %>
                 </p>
