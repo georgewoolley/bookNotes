@@ -1,35 +1,108 @@
 
 
+
 #cards {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
+
+  padding: 10px;
+}
+
+.card-heading {
+  
+  color: #0C0C0C;
+   font-size: 30px;
+   font-weight: 600;
+   word-wrap: break-word
+   font-family: 'Lato', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.card-sumamry {
+
+color: rgba(12, 12, 12, 0.90);
+ font-size: 18px;
+ font-family: DM Sans;
+ font-weight: 400;
+ letter-spacing: 0.54px;
+ word-wrap: break-word
 }
 
 
 .flex-container {
-    display: flex;
-    flex-direction: row; /* or column, row-reverse, column-reverse */
-    justify-content: space-evenly; /* or center, flex-start, flex-end, space-around, space-evenly */
-    align-items: stretch; /* or flex-start, flex-end, stretch, baseline */
-    flex-wrap: wrap; 
-    
-  }
-
-  .flex-item {
-    flex-basis: calc(33.33% - 10px);
-    margin: 5px;
-    box-sizing: border-box;
-    margin-left: 5px;
-    margin-right: 5px;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  display: flex;
+  flex-direction: row; /* or column, row-reverse, column-reverse */
+  justify-content: space-evenly; /* or center, flex-start, flex-end, space-around, space-evenly */
+  align-items: stretch; /* or flex-start, flex-end, stretch, baseline */
+  flex-wrap: wrap; 
   
-  }
+}
+
+.flex-item {
+  flex-basis: calc(33.33% - 10px);
+  margin: 5px;
+  box-sizing: border-box;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+}
+  
 
   #bookImg {
-    border-radius: 10px;
+   
     overflow: hidden;
     margin-top: 20px;
+    border-radius: 20px;
   }
+
+#blackBanner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  background-color: #0C0C0C;
+  text-align: center; /* Center text horizontally */
+  margin-left: 50px;
+  margin-right: 50px;
+  border-radius: 20px;
+
+} 
+
+#pBanner {
+  
+  color: #FBFBFB;
+   font-size: 3rem;
+   font-family: Roboto Serif;
+   font-weight: 700;
+   line-height: 90.13px;
+   letter-spacing: 0.77px;
+   word-wrap: break-word
+  
+}
+
+#viewBtn {
+  width: 100px;
+  border-radius: 20px;
+}
+
+.dropdown-menu {
+  background-color: #0C0C0C;
+}
+
+.dropdown-menu a {
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #0C0C0C;
+  border-color: #0C0C0C;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: darkgray; /* Change the color on hover if needed */
+  border-color: darkgray;
+  color: white;
+}

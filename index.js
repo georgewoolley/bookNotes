@@ -54,35 +54,7 @@ app.get("/", async (req, res) => {
       console.log("Book URLS: " + bookUrls.thumb);
     }
 
-  
-
-    // try {
-    //   const response = await axios.get(`${baseUrl}?q=${encodeURIComponent(bookTitle)}&key=${apiKey}`);
-      
-    //   // Check if any books were found
-    //   if (response.data.totalItems === 0) {
-    //     console.log('No books found with the given title.');
-    //     return;
-    //   }
-  
-    //   // Get the first book's cover image link
-    //   const coverLink = response.data.items[0].volumeInfo.imageLinks.thumbnail;
-      
-    //   // Use the link to download or render the cover image
-    //   console.log(`Book Cover URL: ${coverLink}`);
-    //   // Now you can use this URL to download or render the image as needed.
-
-    //   res.render("index.ejs", {
-    //     heading: "Book Note Library",
-    //     items: items,
-    //     cover: coverLink,
-    //   });
-
-
-    // } catch (error) {
-    //   console.error('Error fetching book information:', error.message);
-    // }
-
+    
        res.render("index.ejs", {
         heading: "Book Note Library",
         items: items,
@@ -126,6 +98,21 @@ app.post("/submit", async (req, res) => {
 });
 
 
+
+
+app.get('/details', (req, res) => {
+  const title = req.query.title;
+  const summary = req.query.summary;
+  const timestamp = req.query.timestamp;
+
+  // Render the details page with the provided data
+  res.render('details.ejs', { title, summary, timestamp });
+});
+
+
+
+
+
 app.post("/edit", async (req, res) => {
 
 
@@ -162,23 +149,20 @@ async function getBookCover(bookTitle) {
   try {
     const response = await axios.get(`${baseUrl}?q=${encodeURIComponent(bookTitle)}&key=${apiKey}`);
     
-    // Check if any books were found
+   
     if (response.data.totalItems === 0) {
       console.log('No books found with the given title.');
-      return null; // Return null or any other value to indicate no book found
+      return null; 
     }
 
-    // Get the first book's cover image link
     const coverLink = response.data.items[0].volumeInfo.imageLinks.thumbnail;
 
-    // Use the link to download or render the cover image
-    console.log(`Book Cover URL: ${coverLink}`);
-    // Now you can use this URL to download or render the image as needed.
 
-    // Return the Book Cover URL
+    console.log(`Book Cover URL: ${coverLink}`);
+   
     return coverLink;
   } catch (error) {
     console.error('Error fetching book information:', error.message);
-    return null; // Return null or any other value to indicate an error
+    return null; 
   }
 }
