@@ -106,3 +106,13 @@ color: rgba(12, 12, 12, 0.90);
   border-color: darkgray;
   color: white;
 }
+
+#notes {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+h2 {
+  margin: 10px;
+}

@@ -1,4 +1,106 @@
-<h1>Details</h1>
-<p><%= title %></p>
-<p><%= summary %></p>
-<p><%= timestamp %></p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/styles/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Open+Sans:wght@300;400&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+
+  <header class="p-3 mb-3 border-bottom">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/public/assets/book-open-svgrepo-com.svg"
+          class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+            <use xlink:href="#bootstrap"></use>
+          </svg>
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
+          <li><a href="/addNotes" class="nav-link px-2 link-body-emphasis">Add Notes</a></li>
+
+
+
+        </ul>
+
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+        </form>
+        <div class="dropdown show">
+          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sort Notes
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/">Most Recent First</a>
+            <a class="dropdown-item" href="/?sort=desc">Oldest First</a>
+            <a class="dropdown-item" href="#">Highest Rated</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    </div>
+
+
+
+  </header>
+
+  <div id="blackBanner">
+    <p id="pBanner"></p>
+  </div>
+
+  <div id="notes">
+    <img src="<%= thumb %>" alt="book cover" id="bookImg">
+    <h2>
+      <%= title %>
+    </h2>
+    <p>
+      <%= new Date(timestamp).toLocaleString('en-US', { month: 'short' , day: 'numeric' , hour: 'numeric' ,
+        minute: 'numeric' }) %>
+    </p>
+    <h4>Summary</h4>
+    <p>
+      <%= summary %>
+    </p>
+    <div>
+      <div class="container">
+        <div class="button-container">
+
+          <button type="button" class="btn btn-light">Edit</button>
+          <form action="/delete" method="post">
+            <button class="btn btn-danger" onclick="this.form.submit()" id="deleteBtn" name ="itemId" value="<%= id %>">Delete</button>
+          </form>
+         
+        
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

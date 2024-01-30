@@ -36,8 +36,8 @@
           </a>
           
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="/">Most Recent First</a>
-            <a class="dropdown-item" href="/?sort=desc">Oldest First</a>
+            <a class="dropdown-item" href="/?sort=desc">Most Recent First</a>
+            <a class="dropdown-item" href="/">Oldest First</a>
             <a class="dropdown-item" href="#">Highest Rated</a>
           </div>
         </div>
@@ -57,11 +57,12 @@
 
       <div class="flex-item" id="cards">
         <img src="<%= item.thumb %>" alt="book cover" id="bookImg">
-        <p class="card-heading"><%= item.title %> </p>                
+        <p class="card-heading"><%= item.title %></p>
         <p class="card-summary"><%= item.sum %></p>
         <p><%= new Date(item.timestamp).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) %></p>
-        <a href="/details?title=<%= encodeURIComponent(item.title) %>&summary=<%= encodeURIComponent(item.sum) %>&timestamp=<%= item.timestamp %>" class="btn btn-dark" id="viewBtn">View</a>
+        <a href="/details?id=<%= item.id %>&title=<%= encodeURIComponent(item.title) %>&summary=<%= encodeURIComponent(item.sum) %>&timestamp=<%= item.timestamp %>&thumb=<%= encodeURIComponent(item.thumb) %>" class="btn btn-dark" id="viewBtn">View</a>
       </div>
+      
       
 
 

@@ -104,23 +104,29 @@ app.get('/details', (req, res) => {
   const title = req.query.title;
   const summary = req.query.summary;
   const timestamp = req.query.timestamp;
+  const thumb = req.query.thumb;
+  const id = req.query.id;
 
   // Render the details page with the provided data
-  res.render('details.ejs', { title, summary, timestamp });
+  res.render('details.ejs', { title, summary, timestamp, thumb, id });
+});
+
+
+app.post('/delete', async (req, res) => {
+  const id = req.body.itemId;
+
+  try {
+    await db.query("DELETE FROM book WHERE id = $1", [id]);
+    res.redirect("/");
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ success: false, message: 'Error deleting entry' });
+  }
 });
 
 
 
 
-
-app.post("/edit", async (req, res) => {
-
-
-});
-
-app.post("/delete", async (req, res) => {
-
-});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
