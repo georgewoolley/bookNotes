@@ -80,11 +80,12 @@ app.post("/submit", async (req, res) => {
   const summary = req.body.summary;
   const notes = req.body.notes;
   const time = getCurrentTime();
+  const id = req.body.id;
 
   try {
     const bookCoverUrl = await getBookCover(title);
 
-    await db.query(
+   await db.query(
       "INSERT INTO book (title, sum, notes, timestamp, thumb) VALUES ($1, $2, $3, $4, $5 )",
       [title, summary, notes, time, bookCoverUrl]
     );
@@ -97,6 +98,31 @@ app.post("/submit", async (req, res) => {
   }
 });
 
+
+
+app.post("/update", async (req, res) => {
+  const title = req.body.title;
+  const summary = req.body.summary;
+  const notes = req.body.notes;
+  const time = getCurrentTime();
+  const id = req.body.recordId;
+  console.log("The updated ID is :" +id);
+
+  try {
+    const bookCoverUrl = await getBookCover(title);
+
+    await db.query(
+      "UPDATE book SET title = $1, sum = $2, notes = $3, timestamp = $4, thumb = $5 WHERE id = $6",
+      [title, summary, notes, time, bookCoverUrl, id]
+    );
+
+    console.log(getCurrentTime());
+    res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 
 
@@ -137,6 +163,44 @@ app.get('/addNotes', (req, res) => {
   res.render('addNotes');
 });
 
+
+app.get('/edit/:id', async (req, res) => {
+  // Assuming 'id' is used to identify the record to edit
+  // You can fetch the record from your database using this id
+  // Replace sampleRecord with the actual data from your database
+
+  const recordId = req.params.id;
+  console.log("Record ID is " + recordId)
+
+  try {
+    const result = await db.query('SELECT * FROM book WHERE id = $1', [recordId]);
+    const data = result.rows;
+  
+    if (data && data.length > 0) {
+      const id = data[0].id;
+      const title = data[0].title;
+      const summary = data[0].summary;
+      const notes = data[0].notes;
+  
+      res.render("editForm.ejs", {
+        id: id,
+        title: title,
+        summary: summary,
+        notes: notes,
+      });
+    } else {
+      // Handle the case when no matching record is found
+      res.status(404).send('Record not found');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+  
+
+
+  
+});
 
 
 function getCurrentTime() {

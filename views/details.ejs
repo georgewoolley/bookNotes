@@ -77,8 +77,12 @@
     <div>
       <div class="container">
         <div class="button-container">
-
-          <button type="button" class="btn btn-light">Edit</button>
+        
+          <form action="/edit/<%= id %>"> 
+            <button type="button" class="btn btn-light" onclick="this.form.submit()">Edit</button>
+          </form>
+         
+          
           <form action="/delete" method="post">
             <button class="btn btn-danger" onclick="this.form.submit()" id="deleteBtn" name ="itemId" value="<%= id %>">Delete</button>
           </form>
